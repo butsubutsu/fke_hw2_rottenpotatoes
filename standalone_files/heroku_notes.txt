@@ -1,0 +1,1 @@
+heroku run:detached rake db:migrate
