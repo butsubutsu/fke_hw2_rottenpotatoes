@@ -1,6 +1,9 @@
 class MoviesController < ApplicationController
   
-  
+  def init_ratings
+   # @all_ratings=Movie.all.map{|m| m.rating}.uniq
+    @all_ratings=Movie.all_ratings
+  end
 
 
 
@@ -12,6 +15,7 @@ class MoviesController < ApplicationController
  
   def index
     clear_col_header_classes
+    init_ratings
     sort_attrib=params[:sort]
     if sort_attrib != nil && Movie.all.map{|m| m.respond_to?(sort_attrib.to_sym)}.reduce(:&) 
       then @movies = #Movie.all.sort_by{|a| a.send(sort_attrib.to_sym)}
