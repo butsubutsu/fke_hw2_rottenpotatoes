@@ -7,9 +7,16 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    
+    sort_attrib=params[:sort]
+    if sort_attrib != nil then @movies = Movie.all.sort_by{|a| a.send(sort_attrib.to_sym)}
+    else
+    @movies = Movie.all#.sort_by {|a| a.title}  
+    end 
   end
-
+def sort(col)
+   
+end
   def new
     # default: render 'new' template
   end
