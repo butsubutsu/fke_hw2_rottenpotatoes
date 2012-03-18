@@ -1,4 +1,8 @@
 class MoviesController < ApplicationController
+  
+  
+
+
 
   def show
     id = params[:id] # retrieve movie ID from URI route
@@ -6,19 +10,29 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
+  
+  
   def index
-    
+    clear_col_header_classes
     sort_attrib=params[:sort]
     if sort_attrib != nil && Movie.all.map{|m| m.respond_to?(sort_attrib.to_sym)}.reduce(:&) 
       then @movies = #Movie.all.sort_by{|a| a.send(sort_attrib.to_sym)}
       Movie.order(sort_attrib.to_s)
+     #debugger
+      #self.xpc[params[:class]]="hilite"
+      #session.keys.select{|k| k.to_s =~/^sort_/ }
+     # session.delete_if{|k,v| k.to_s =~/^sort_/ }
+      session[("sort_"+params[:sort].to_s).to_sym]="hilite"
+      #debugger
     else
-    @movies = Movie.all#.sort_by {|a| a.title}  
+    @movies = Movie.all#.sort_by {|a| a.title}
+    
     end 
   end
-def sort(col)
-   
+def clear_col_header_classes
+  session.delete_if{|k,v| k.to_s =~/^sort_/ }  
 end
+
   def new
     # default: render 'new' template
   end
