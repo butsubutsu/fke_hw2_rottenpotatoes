@@ -1,2 +1,3 @@
-class Movie < ActiveRecord::Base
+class Movie < ActiveRecord::Base #; include Enumerable
+  
 end
