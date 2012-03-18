@@ -4,9 +4,13 @@
 %table#movies
   %thead
     %tr
-      %th Movie Title
+      %th 
+        /%a{:id=>"title_header",:href=>"www.google.co.uk"}  Movie Title
+        %a=link_to "Movie Title", movies_path(:sort=>:title)
       %th Rating
-      %th Release Date
+      %th 
+        /%a(id="release_date_header" href="www.google.co.uk") Release Date
+        %a=link_to "Release Date", movies_path(:sort=>:release_date)
       %th More Info
   %tbody
     - @movies.each do |movie|
