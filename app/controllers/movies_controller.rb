@@ -9,7 +9,8 @@ class MoviesController < ApplicationController
   def index
     
     sort_attrib=params[:sort]
-    if sort_attrib != nil then @movies = Movie.all.sort_by{|a| a.send(sort_attrib.to_sym)}
+    if sort_attrib != nil && Movie.all.map{|m| m.respond_to?(sort_attrib.to_sym)}.reduce(:&) 
+      then @movies = Movie.all.sort_by{|a| a.send(sort_attrib.to_sym)}
     else
     @movies = Movie.all#.sort_by {|a| a.title}  
     end 
