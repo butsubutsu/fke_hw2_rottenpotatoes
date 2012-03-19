@@ -26,8 +26,35 @@ end
     # will render app/views/movies/show.<extension> by default
   end
  
+ def redirect_to_new_uri
+   sort_by_col=false
+   sort_by_col=(session[:sort] != params[:sort]) 
+   different_ratings=(session[:ratings] != params[:ratings])
+   
+   return sort_by_col || different_ratings
+ end
+ 
+ def update_session(hs)
+   #session.each{|k,v| session[k]=hs[k] unless hs[k]==nil}
+   hs.keys.each{|k| session[k]=hs[k] unless hs[k]==nil}unless hs == nil
+ end
+ def redirect_to_last_index_uri
+   
+   if redirect_to_new_uri then
+     
+      update_session(params)
+   
+      params[:sort]=session[:sort]
+      params[:ratings]=session[:ratings]
+      
+      redirect_to movies_path(params)     
+   end
+ end
+ 
   def index
-    debugger
+    #debugger
+    redirect_to_last_index_uri
+    #debugger
     clear_col_header_classes
     init_ratings
     sort_attrib=params[:sort]
@@ -53,7 +80,7 @@ end
     @movie = Movie.create!(params[:movie])
     flash[:notice] = "#{@movie.title} was successfully created."
     #just pass the extra parameters as arguments to the method call
-    redirect_to movies_path(:sort=>:title,:a=>:b)
+    redirect_to movies_path #(:sort=>:title,:a=>:b)
   end
 
   def edit
