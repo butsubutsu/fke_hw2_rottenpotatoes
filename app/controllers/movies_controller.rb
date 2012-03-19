@@ -4,16 +4,19 @@ class MoviesController < ApplicationController
    # @all_ratings=Movie.all.map{|m| m.rating}.uniq
     @all_ratings=Movie.all_ratings
   end
-
-def get_ratings_where
-  rt=params[:ratings]
+def update_checkbox_status(hs)
+  rt=hs[:ratings]
+    #track checkbox status
+  @checked={}
+  @checked=Hash[rt.keys.map{|k| [k,true]}] unless rt==nil
+end
+def get_ratings_where(hs)
+  rt=hs[:ratings]
   bbb={}
   #debugger
   #An array may be used in the hash to use the SQL IN operator:
   bbb[:rating]=rt.keys unless rt==nil
-  #track checkbox status
-  @checked={}
-  @checked=Hash[rt.keys.map{|k| [k,true]}] unless rt==nil
+
   return bbb
 end
 
@@ -24,23 +27,18 @@ end
   end
  
   def index
+    debugger
     clear_col_header_classes
-    #debugger
     init_ratings
     sort_attrib=params[:sort]
-    
+    update_checkbox_status(params)
     if sort_attrib != nil && Movie.all.map{|m| m.respond_to?(sort_attrib.to_sym)}.reduce(:&) 
       then @movies = #Movie.all.sort_by{|a| a.send(sort_attrib.to_sym)}
-      Movie.where(get_ratings_where).order(sort_attrib.to_s)
-     #debugger
-      #self.xpc[params[:class]]="hilite"
-      #session.keys.select{|k| k.to_s =~/^sort_/ }
-     # session.delete_if{|k,v| k.to_s =~/^sort_/ }
+      
+      Movie.where(get_ratings_where(params)).order(sort_attrib.to_s)
       session[("sort_"+params[:sort].to_s).to_sym]="hilite"
-      #debugger
     else
-    @movies = Movie.where(get_ratings_where)#.sort_by {|a| a.title}
-    
+    @movies = Movie.where(get_ratings_where(params))#.sort_by {|a| a.title}
     end 
   end
 def clear_col_header_classes
@@ -54,7 +52,8 @@ end
   def create
     @movie = Movie.create!(params[:movie])
     flash[:notice] = "#{@movie.title} was successfully created."
-    redirect_to movies_path
+    #just pass the extra parameters as arguments to the method call
+    redirect_to movies_path(:sort=>:title,:a=>:b)
   end
 
   def edit
