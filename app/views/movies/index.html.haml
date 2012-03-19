@@ -11,11 +11,12 @@
     %tr
       %th{:class=>session[:sort_title]} 
         /%a{:id=>"title_header",:href=>"www.google.co.uk"}  Movie Title
-        %a#title_header=link_to "Movie Title", movies_path(params.merge({:sort=>:title}))
+        -#link_to "Articles", articles_path, :id => "news", :class => "article"
+        =link_to "Movie Title", movies_path(params.merge({:sort=>:title})),:id=>"title_header"
       %th Rating
       %th{:class=>session[:sort_release_date]} 
         /%a(id="release_date_header" href="www.google.co.uk") Release Date
-        %a#release_date_header=link_to "Release Date", movies_path(params.merge({:sort=>:release_date}))
+        =link_to "Release Date", movies_path(params.merge({:sort=>:release_date})),:id=>"release_date_header"
       %th More Info
   %tbody
     - @movies.each do |movie|
