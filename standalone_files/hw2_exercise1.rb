@@ -1,7 +1,7 @@
 #part a
 
 class Numeric
-  @@currencies = {'yen' => 0.013, 'euro' => 1.292, 'rupee' => 0.019}
+  @@currencies = {'dollar'=>1,'yen' => 0.013, 'euro' => 1.292, 'rupee' => 0.019}
   def method_missing(method_id,*arguments)
     myKey=nil
     if method_id.to_s=~/in/i
@@ -23,11 +23,11 @@ end
 #p 5.euros.in(:rupees)
 #.in(:rupees)
 #p 6.46 * 0.019
+#p 5.dollars.in(:euros)
 
-
-
-
-
+#p 6.euros.in(:dollar)
+p 5.rupees
+p 5.rupees.in(:yen)
 class String
   def palindrome?
     self.gsub(/\W/,'').downcase==self.gsub(/\W/,'').reverse.downcase
