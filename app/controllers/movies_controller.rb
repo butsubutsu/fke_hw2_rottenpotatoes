@@ -10,6 +10,9 @@ def get_ratings_where
   bbb={}
   #An array may be used in the hash to use the SQL IN operator:
   bbb[:rating]=rt.keys unless rt==nil
+  #track checkbox status
+  @checked={}
+  @checked=Hash[rt.keys.map{|k| [k,true]}] unless rt==nil
   return bbb
 end
 
@@ -21,6 +24,7 @@ end
  
   def index
     clear_col_header_classes
+    #debugger
     init_ratings
     sort_attrib=params[:sort]
     
