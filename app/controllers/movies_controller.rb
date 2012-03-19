@@ -8,6 +8,7 @@ class MoviesController < ApplicationController
 def get_ratings_where
   rt=params[:ratings]
   bbb={}
+  #debugger
   #An array may be used in the hash to use the SQL IN operator:
   bbb[:rating]=rt.keys unless rt==nil
   #track checkbox status
