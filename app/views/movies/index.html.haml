@@ -5,6 +5,7 @@
   - @all_ratings.each do |rating|
     = rating
     = check_box_tag "ratings[#{rating}]",1,@checked[rating]
+  = hidden_field_tag 'sort',params[:sort]
   = submit_tag 'Refresh', :id=>"ratings_submit"
 %table#movies
   %thead
@@ -12,7 +13,7 @@
       %th{:class=>session[:sort_title]} 
         /%a{:id=>"title_header",:href=>"www.google.co.uk"}  Movie Title
         -#link_to "Articles", articles_path, :id => "news", :class => "article"
-        =link_to "Movie Title", movies_path(params.merge({:sort=>:title})),:id=>"title_header"
+        =link_to "Movie Title", movies_path(params.merge(:sort=>:title)),:id=>"title_header"
       %th Rating
       %th{:class=>session[:sort_release_date]} 
         /%a(id="release_date_header" href="www.google.co.uk") Release Date
