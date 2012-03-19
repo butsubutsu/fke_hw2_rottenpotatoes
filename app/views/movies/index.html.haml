@@ -4,18 +4,18 @@
   Include: 
   - @all_ratings.each do |rating|
     = rating
-    = check_box_tag "ratings[#{rating}]"
+    = check_box_tag "ratings[#{rating}]",true,@checked[rating]
   = submit_tag 'Refresh'
 %table#movies
   %thead
     %tr
       %th{:class=>session[:sort_title]} 
         /%a{:id=>"title_header",:href=>"www.google.co.uk"}  Movie Title
-        %a#title_header=link_to "Movie Title", movies_path(:sort=>:title)
+        %a#title_header=link_to "Movie Title", movies_path(params.merge({:sort=>:title}))
       %th Rating
       %th{:class=>session[:sort_release_date]} 
         /%a(id="release_date_header" href="www.google.co.uk") Release Date
-        %a#release_date_header=link_to "Release Date", movies_path(:sort=>:release_date)
+        %a#release_date_header=link_to "Release Date", movies_path(params.merge({:sort=>:release_date}))
       %th More Info
   %tbody
     - @movies.each do |movie|
